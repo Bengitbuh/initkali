@@ -1,0 +1,98 @@
+!# /usr/bin/bash
+# file that need for attribute
+etc/network/interfaces
+auto eth0
+iface eth0 inet dhcp
+iface eth0 inet static
+    address 192.168.1.9
+    netmask 255.255.255.0
+    broadcast 192.168.1.255
+    dns-servers 192.168.1.1, 8.8.8.8
+    gateway 192.168.1.1
+/etc/resolv.conf ==> nameserver  8.8.8.8
+/etc/default/isc-dhcp-server
+/etc/apt/sources.list
+/etc/hosts
+
+#fix bluetooth adapter
+find and set #Experimental in /etc/bluetooth/main.conf to "true"
+sudo chmod 555 /etc/bluetooth
+service bluetooth restart 
+
+# init.sh
+apt-get update
+apt-get upgarde 
+apt-get build-essential
+apt-get upgarde -y
+apt-get update -y 
+uname -a
+apt-cache search linux-headers-$(uname -r)
+apt-get install linux-headers-`uname -r`
+apt-get install kernel-headers-$(uname -r)
+# install tp link wifi driver
+apt install bc
+apt install realtek-rtl88xxau-dkms
+# install hydra
+apt remove hydra
+apt-get install smbclient-dev libsmbclient-dev
+apt-get install libssl-dev libssh-dev libidn11-dev libpcre3-dev \
+                 libgtk2.0-dev libmysqlclient-dev libpq-dev libsvn-dev \
+                 firebird-dev libmemcached-dev libgpg-error-dev \
+                 libgcrypt11-dev libgcrypt20-dev
+git clone https://github.com/vanhauser-thc/thc-hydra.git
+cd hydra
+./configure
+make
+make install
+
+# install grgsm
+sudo apt-get update && \
+sudo apt-get install  gnuradio  cmake autoconf  libtool pkg-config build-essentiallibcppunit-dev swig doxygen liblog4cpp5-dev gnuradio-dev gr-osmosdr libosmocore-dev libosmocore rtl-sdr
+ git clone https://github.com/bkerler/gr-gsm.git
+cd gr-gsm
+mkdir build
+cd build
+cmake ..
+mkdir $HOME/.grc_gnuradio/ $HOME/.gnuradio/
+make
+make install
+ldconfig
+service avahi-daemon restart 
+kal -GSM900
+grsm_capture  -f 938.2M -g 10 -s 1e6 -p 1 -T 20 voice.cfile 
+grgsm_decode -c voice.cfile -f 938.2M -s 1e6 -m SDCCH8 -t 1 -p -v
+  
+ #ddos attack
+hping3 -S -1 --flood --rand-source -d 30000 <target ip>
+
+# mouse jack install
+sudo apt-get install sdcc binutils python python-pip
+sudo pip install -U pip
+sudo pip install -U -I pyusb
+sudo pip install -U platformio
+#Plug in CrazyRadio 
+#Machine - Settings - Add NRF24 Radio device 
+#Devices - USB - Click to enable Nordic Semiconductor NRF24 #device in Session 
+git clone https://github.com/BastilleResearch/mousejack.git
+cd nrf-research-firmware
+git submodule init
+git submodule update
+make
+#Select usb device again 
+make install
+#Unplug and replug
+
+##install bettercap from source 
+apt install those:
+build-essential
+libpcap-dev
+libusb-1.0-0-dev (required by the HID module)
+libnetfilter-queue-dev (on Linux only, required by the packet.proxy module)
+
+git clone https://github.com/bettercap/caplets.git
+cd caplets
+sudo make install
+
+git clone github.com/bettercap/bettercap
+cd bettercap
+./build.sh  or make install 
